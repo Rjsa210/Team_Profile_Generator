@@ -5,8 +5,6 @@ const Manager = require('./lib/manager');
 const Engineer = require('./lib/engineer');
 const Intern = require('./lib/intern');
 
-
-
 const teamMembers = [];
 let htmlAdd = '';
 
@@ -83,7 +81,6 @@ class Generator {
 
   //give Generator an addEngineer() method
   addEngineer() {
-    console.log('Ok, Lets add a new engineer');
     inquirer
       .prompt([
         //what is the engineer's name? validate string
@@ -122,8 +119,6 @@ class Generator {
 
   //give Generator an addIntern() method
   addIntern() {
-
-    console.log('OK, lets add a new intern')
     inquirer
       .prompt([
         //what is the intern's name? validate string
@@ -171,10 +166,12 @@ class Generator {
     const interns = teamMembers.filter(function (teamMember) {
       return teamMember.getRole() === 'Intern';
     });
-    this.appendManager(manager, engineers, interns);
+    this.appendManager(manager);
+    this.appendEngineers(engineers);
+    this.appendInterns(interns);
   }
 
-  appendManager(manager, engineers, interns) {
+  appendManager(manager) {
 
     manager.forEach(manager => {
       htmlAdd += `<div class="column is-one-quarter">
@@ -201,13 +198,11 @@ class Generator {
         </div>
       </div>
     </div>`;
-
-      this.appendEngineers(engineers, interns);
     });
 
   }
 
-  appendEngineers(engineers, interns) {
+  appendEngineers(engineers) {
 
     engineers.forEach(engineer => {
       htmlAdd += `<div class="column is-one-quarter">
@@ -234,7 +229,6 @@ class Generator {
         </div>
       </div>
     </div>`;
-      this.appendInterns(interns);
     });
   }
 
@@ -265,7 +259,7 @@ class Generator {
       </div>
     </div>`;
       this.createHtml();
-    })
+    });
   }
 
   createHtml() {
@@ -309,7 +303,8 @@ class Generator {
       
       </body>
       
-      </html>`
+      </html>`;
+
     fs.writeFileSync('myTeam.html', htmlSample);
   };
 
